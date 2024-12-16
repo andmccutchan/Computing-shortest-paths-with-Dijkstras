@@ -112,6 +112,7 @@ WeightedGraph<T> WeightedGraph<T>::readFromFile(const string& filename) {
         T id;
         double x, y;
         file >> id >> x >> y;
+        // cout << id << ", " << x << ", " << y << endl; //for debugging
         g.coords[id] = make_pair(x, y);
     }
 
@@ -123,6 +124,7 @@ WeightedGraph<T> WeightedGraph<T>::readFromFile(const string& filename) {
         T u, v;
         double weight;
         if (street >> u >> v >> weight) {
+            // cout << u << ", " << v << ", " << weight << endl; //for debugging
             g.addEdge(u, v, weight);
         }  
     }
