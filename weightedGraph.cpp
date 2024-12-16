@@ -135,7 +135,24 @@ WeightedGraph<T> WeightedGraph<T>::readFromFile(const string& filename) {
 //==============================================================
 template <class T>
 vector<pair<double, double> > WeightedGraph<T>::dijkstras(pair<double, double> start, pair<double, double> end) {
-    
+    pair<double, double> seNodes = findNode(start, end);
+
+    PriorityQueue<T> pq;
+    unordered_map<T, T> parent;
+    unordered_map<T, double> distance;
+
+    for (const auto& [node, _] : adjacencyList) {
+        distance[node] = numeric_limits<double>::infinity();
+        parent[node] = -1;
+        pq.insert(node, distance[node]);
+    }
+
+    pq.decreaseKey(seNodes.first, 0);
+    distance[seNodes.first] = 0;
+    while (!pq.isEmpty()) {
+        auto [current, currentDist] = pq.extractMin();
+        
+    }    
 }
 
 //==============================================================
@@ -153,8 +170,27 @@ void WeightedGraph<T>::printAdjacencyList() const {
 }   
 
 //==============================================================
-// findClosestNode
+// findNode
 //==============================================================
+template <class T>
+pair<double, double> WeightedGraph<T>::findNode(pair<double, double> start, pair<double, double> end) {
+    T startNode = -1, endNode = - 1;
+    for (const auto& [id, coord] : coords) {                          
+        if (start.first == coord.first && start.second == coord.second) {
+            startNode = id;
+        }
+
+        if (end.first == coord.first && end.second == coord.second) {
+            endNode = id;
+        }
+    }
+
+    if (startNode == -1 || endNode == -1) {
+        throw invalid_argument("Start or end coord not found");
+    }
+
+    return make_pair(startNode, endNode);
+}
 
 
 template class WeightedGraph<long>;

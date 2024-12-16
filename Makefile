@@ -12,3 +12,6 @@ mytests.o: mytests.cpp weightedGraph.hpp
 
 clean:
 	rm -f *.o mytests
+
+run: mytests
+	./mytests

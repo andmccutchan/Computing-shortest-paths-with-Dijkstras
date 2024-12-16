@@ -35,6 +35,7 @@ class WeightedGraph {
                 vector<pair <double, double> >  dijkstras(pair<double, double> startCoord, pair<double, double> endCoord);
         static  WeightedGraph<T>                readFromSTDIN();
         static  WeightedGraph<T>                readFromFile(const string& filename);
+                pair<double, double>            findNode(pair<double, double> start, pair<double, double> end);
 
         // getter functions
         const   auto&                           getCoords() const { return coords; }
