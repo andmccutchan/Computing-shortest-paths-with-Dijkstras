@@ -52,6 +52,21 @@ bool WeightedGraph<T>::edgeIn(const T& u, const T& v) {
     return adjacencyList[u].find(v) != adjacencyList[u].end();
 }
 
+//============================================================== 
+// idFromCoords
+// finds and returns id of node by searching coodrs for coordinate pair
+//==============================================================
+template <class T>
+T WeightedGraph<T>::idFromCoords(pair<double, double> node) {
+    T nodeId = -1; // -1 does not exist as id in coords
+    for (const auto& [id, coord] : coords) {                          
+        if (node.first == coord.first && node.second == coord.second) {
+            nodeId = id;
+        }
+    }
+    return nodeId;
+}
+
 //==============================================================  
 // addVertex
 //==============================================================
@@ -196,4 +211,5 @@ pair<double, double> WeightedGraph<T>::findNode(pair<double, double> start, pair
 
 
 template class WeightedGraph<long>;
+template class WeightedGraph<long long>; // for windows
 template class WeightedGraph<int>;

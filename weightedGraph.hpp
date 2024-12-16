@@ -29,8 +29,9 @@ class WeightedGraph {
                                                 ~WeightedGraph();
                 WeightedGraph<T>&               operator=(const WeightedGraph<T> &other);
                 void                            addEdge(const T& u, const T& v, double weight);
-		        void                            printAdjacencyList() const;
+		void                            printAdjacencyList() const;
                 bool                            edgeIn(const T& u, const T& v);
+                T                               idFromCoords(pair<double, double> node);
                 void                            addVertex(const T& id, double x, double y);
                 vector<pair <double, double> >  dijkstras(pair<double, double> startCoord, pair<double, double> endCoord);
         static  WeightedGraph<T>                readFromSTDIN();
