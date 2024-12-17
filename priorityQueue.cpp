@@ -113,4 +113,5 @@ void PriorityQueue<T>::printMinHeap() {
 }
 
 template class PriorityQueue<long>;
+template class PriorityQueue<long long>; // For windows
 template class PriorityQueue<int>;

@@ -33,7 +33,8 @@ class WeightedGraph {
                 bool                            edgeIn(const T& u, const T& v);
                 T                               idFromCoords(pair<double, double> node);
                 void                            addVertex(const T& id, double x, double y);
-                vector<pair <double, double> >  dijkstras(pair<double, double> startCoord, pair<double, double> endCoord);
+                // vector<pair <double, double> >  dijkstras(pair<double, double> startCoord, pair<double, double> endCoord);
+                vector<pair <double, double> >  dijkstras(const T& sourceNode, const T& endNode);
         static  WeightedGraph<T>                readFromSTDIN();
         static  WeightedGraph<T>                readFromFile(const string& filename);
                 pair<double, double>            findNode(pair<double, double> start, pair<double, double> end);

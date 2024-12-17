@@ -41,7 +41,7 @@ int main (void) {
         // CLI interface
         while (true) {
             double x_1, y_1, x_2, y_2;
-            long long startId, endId;
+            long long source, dest;
             string coord;
 
             // Input first coordinates
@@ -107,8 +107,8 @@ int main (void) {
             cout << "End node found!" << endl;
 
             // Find ID of each coordinate, then run Dijkstra's
-            startId = graph.idFromCoords(start);
-            endId = graph.idFromCoords(end);
+            source = graph.idFromCoords(start);
+            dest = graph.idFromCoords(end);
 
             // //Output with coordinates
             // cout << "\n>> Finding shortest path from: " <<
@@ -117,7 +117,8 @@ int main (void) {
 
             // //Output with node id
             cout << "\n>> Finding shortest path from node [" <<
-            startId << "] to node [" << endId << "]..." << endl;
+            source << "] to node [" << dest << "]..." << endl;
+            graph.dijkstras(source, dest);
             
             break; 
         }
