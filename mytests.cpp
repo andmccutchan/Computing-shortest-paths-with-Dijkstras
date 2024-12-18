@@ -1,3 +1,9 @@
+//=========================================================
+// mytests.cpp
+// Andrew McCutchan, Namu Kim
+// Driver file containing the CLI and test cases.
+// 12/18/2024
+//=========================================================
 #include <iostream> 
 #include "weightedGraph.hpp"
 #include "priorityQueue.hpp"
@@ -9,14 +15,52 @@ using namespace std;
 // Priority Que test functions
 // Disjkstra's test functions
 //============================================================
+int testsPassed = 0;
+int testsFailed = 0;
+
+void testPQInsert() {
+    PriorityQueue<long> pq;
+    pq.insert(1, 10.3);
+    pq.insert(2, 1.4);
+    pq.insert(3, 13.2);
+    pq.insert(4, 3.6);
+    pq.insert(5, 6.57);
+    PriorityQueue<long> pq2 = pq;
+    pq2.printMinHeap();
+    cout << endl;
+}
+
+void testPQDecreaseKey() {
+    PriorityQueue<long> pq;
+    pq.insert(1, 10.3);
+    pq.insert(2, 1.4);
+    pq.insert(3, 13.2);
+    pq.insert(4, 3.6);
+    pq.insert(5, 6.57);
+    pq.decreaseKey(3, 6.2);
+    pq.printMinHeap();
+    cout << endl;
+}
+
+void testExtractMin() {
+    PriorityQueue<long> pq;
+    pq.insert(1, 10.3);
+    pq.insert(2, 1.4);
+    pq.insert(3, 13.2);
+    pq.insert(4, 3.6);
+    pq.insert(5, 6.57);
+    PriorityQueue<long> pq2(pq);
+    auto min = pq2.extractMin();
+    pq2.printMinHeap();
+    cout << "PQ Min: " << min.first << ", " << min.second << endl;
+}
+
+
+
 
 // CLI function declared here
 //============================================================
-
-//=============================================================
-// CLI function (change from main to other name)
-int main (void) {
-
+void CLIfunction() {
     WeightedGraph<long long> graph; //Windows compatible, Window long = 32bits.
     
     while (true) {
@@ -62,7 +106,7 @@ int main (void) {
                 cout << "Re-enter a start coordinate (formatted as 'x y') or 'q' to quit: ";
                 getline(cin, coord);
                 if (coord == "q") {
-                    cout << "Exiting program." << endl;
+                    cout << "Exiting... Thanks for using our program!!" << endl;
                     run = false;
                     break;
                 }
@@ -129,15 +173,19 @@ int main (void) {
                 }
                 
                 // loop to iterate through the shortest path list and print out the coordinates
-                cout << "The shortest path is: " << endl;
-                for (int i = 0; i < shortest.size(); i++) {
-                    if (i == shortest.size() - 1) {
-                        cout << "(" << shortest[i].first << ", " << shortest[i].second << ")";
-                    } else {
-                        cout << "(" << shortest[i].first << ", " << shortest[i].second << ") -> ";
+                if (weight == 0) {
+                    cout << "No path between these points" << endl;
+                } else {
+                    cout << "The shortest path from (" << start.first << ", " << start.second << ") to (" << end.first << ", " << end.second << ") is: "  << endl;
+                    for (int i = 0; i < shortest.size(); i++) {
+                        if (i == shortest.size() - 1) {
+                            cout << "(" << shortest[i].first << ", " << shortest[i].second << ")";
+                        } else {
+                            cout << "(" << shortest[i].first << ", " << shortest[i].second << ") -> ";
+                        }
                     }
+                    cout << " with a weight of: " << weight << endl;
                 }
-                cout << " with a weight of: " << weight << endl;
             } catch (const invalid_argument& e) {
                 cout << "Error: " << e.what() << endl;
                 break;
@@ -146,4 +194,18 @@ int main (void) {
         }
         break; //prevent file prompt loop.
     }
+}
+//=============================================================
+// CLI function (change from main to other name)
+int main (void) {
+    //CLI Dijkstras program 
+    //============================
+    CLIfunction();
+
+    //Test functions
+    //============================
+    // testPQInsert();
+    // testPQDecreaseKey();
+    // testExtractMin();
+  
 }

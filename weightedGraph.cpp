@@ -1,7 +1,17 @@
+//=========================================================
+// WeightedGraph.cpp
+// Andrew McCutchan, Namu Kim
+// Implementaiton file for WeightedGraph class
+// 12/18/2024
+//=========================================================
+
 #include "weightedGraph.hpp"
 
 //==============================================================
 // Default Constructor
+// Initializes an empty Weighted graph onject
+// INPUTS: NONE
+// OUTPUTS: NONE
 //==============================================================
 template <class T>
 WeightedGraph<T>::WeightedGraph() {
@@ -10,6 +20,10 @@ WeightedGraph<T>::WeightedGraph() {
 
 //==============================================================
 // Copy Constructor
+// Initializes a weighted graph object, copying data from a
+// separate weighted graph
+// INPUTS: weighted graph object
+// OUTPUTS: NONE
 //==============================================================
 template <class T>
 WeightedGraph<T>::WeightedGraph(const WeightedGraph<T> &other) {
@@ -20,12 +34,17 @@ WeightedGraph<T>::WeightedGraph(const WeightedGraph<T> &other) {
 
 //==============================================================
 // Destructor
+// INPUTS: NONE
+// OUTPUTS: NONE
+// Frees memory (since vectors and u-maps have their own deallocation, nothing to be done here)
 //==============================================================
 template <class T>
 WeightedGraph<T>::~WeightedGraph() {}
 
 //==============================================================
 // Assignment operator
+// INPUTS: Weighted graph object
+// OUTPUTS: New weighted graph object
 //==============================================================
 template <class T>
 WeightedGraph<T>& WeightedGraph<T>::operator=(const WeightedGraph<T> &other) {
@@ -37,15 +56,19 @@ WeightedGraph<T>& WeightedGraph<T>::operator=(const WeightedGraph<T> &other) {
 
 //============================================================== 
 // addEdge
+// INPUTS: Verteces U and V and weight of their edge.
+// OUTPUTS: NONE
+// Inserts a new edge into our weighted graph
 //==============================================================
 template <class T>
 void WeightedGraph<T>::addEdge(const T& u, const T& v, double weight) {
     adjacencyList[u][v] = weight;
-    
 }
 
 //============================================================== 
 // edgeIn
+// INPUTS: Verteces U and V
+// OUTPUTS: Bool if edge is in graph
 //==============================================================
 template <class T>
 bool WeightedGraph<T>::edgeIn(const T& u, const T& v) {
@@ -54,6 +77,9 @@ bool WeightedGraph<T>::edgeIn(const T& u, const T& v) {
 
 //==============================================================  
 // addVertex
+// INPUTS: Node ID, X and Y coordinates
+// OUTPUTS: NONE
+// Inserts a vertex into the graph with its ID and coordinates
 //==============================================================
 template <class T>
 void WeightedGraph<T>::addVertex(const T& id, double x, double y) {
@@ -62,6 +88,9 @@ void WeightedGraph<T>::addVertex(const T& id, double x, double y) {
 
 //==============================================================
 // readFromSTDIN
+// INPUTS: NONE
+// OUTPUTS: Weighted Graph object
+// Reads a graph inputed from STDIN
 //==============================================================
 template <class T>
 WeightedGraph<T> WeightedGraph<T>::readFromSTDIN() {
@@ -94,6 +123,9 @@ WeightedGraph<T> WeightedGraph<T>::readFromSTDIN() {
 
 //==============================================================
 // readFromFile
+// INPUTS: File
+// OUTPUTS: Weighted Graph object
+// Reads a file from parameter
 //==============================================================
 template <class T>
 WeightedGraph<T> WeightedGraph<T>::readFromFile(const string& filename) {
@@ -130,23 +162,13 @@ WeightedGraph<T> WeightedGraph<T>::readFromFile(const string& filename) {
     return g;
 }
 
-//============================================================== 
-// idFromCoords
-// finds and returns id of node by searching coodrs for coordinate pair
-//==============================================================
-template <class T>
-T WeightedGraph<T>::idFromCoords(pair<double, double> node) {
-    T nodeId = -1; // -1 does not exist as id in coords
-    for (const auto& [id, coord] : coords) {                          
-        if (node.first == coord.first && node.second == coord.second) {
-            nodeId = id;
-        }
-    }
-    return nodeId;
-}
-
 //==============================================================
 // Dijkstra's
+// INPUTS: Start coordinate pair and end coordinate pair
+// OUTPUTS: Vector of shortest path coordinates
+// Computes the shortest path between two nodes. This function takes
+// coordinates inputted by the user and gets their associated nodes,
+// then computes the shortest path between the two.
 //==============================================================
 template <class T>
 vector<pair<double, double> > WeightedGraph<T>::dijkstras(pair<double, double> start, pair<double, double> end) {
@@ -195,67 +217,10 @@ vector<pair<double, double> > WeightedGraph<T>::dijkstras(pair<double, double> s
 }
 
 //==============================================================
-// Dijkstra's (id)
-//==============================================================
-// template <class T>
-// vector<pair<double, double> > WeightedGraph<T>::dijkstras(const T& sourceNode, const T& endNode) {
-//     vector<pair<double, double> > spath; // vector that will store shortest path
-
-//     PriorityQueue<T> pq; // Min-priority que
-//     //unordered_map<T, T> parent; // Holds parent value of node
-//     //unordered_map<T, double> distance; // Holds distance from source
-
-//     // Hold parents and distance from source.
-//     unordered_map<T, pair<T, double> > S;
-
-//     // Initialization
-//     for (const auto& [node, _] : adjacencyList) {
-//         // S[node].first = parent
-//         // S[node].second = shortest path estimate from source (node.d)
-//         S[node].first = -1;
-//         S[node].second = numeric_limits<double>::infinity();
-//         pq.insert(node, S[node].second); // Fill pq
-//     }
-
-    
-//     S[sourceNode].second = 0;// s.d = 0
-//     pq.decreaseKey(sourceNode, S[sourceNode].second);
-
-//     //Loop for shortest path
-//     while (!pq.isEmpty()) {
-//         auto [u, u_d] = pq.extractMin(); // u = current node
-//         double v_d; // Holds v.d
-//         // S U {u}
-//         for (const auto& [v, _] : adjacencyList[u]) {
-//             double w_uv = adjacencyList[u][v]; // weight of edge u->v
-//             v_d = S[v].second;
-//             // If v.d > u.d + w(u,v), "RELAX"
-//             if (v_d > S[u].second + w_uv) {
-//                 S[v].second = S[u].second + w_uv; // v.d = u.d + w(u,v)
-//                 S[v].first = u; // v.p = u
-//             }
-//             // If RELAX decreased v.d
-//             if (S[v].second < v_d) {
-//                 pq.decreaseKey(v, S[v].second);
-//             }
-//         }
-//     }
-
-//     //Test output
-//     cout << "\n>> Output S for source " << sourceNode << ": " << endl;
-//     for (const auto& [id, pd] : S) {
-//         cout << "-node: "  << id;
-//         cout << "\n parent: " << pd.first << 
-//         "\n node.d: " << pd.second << endl;
-//         cout << "------------------------------" << endl;
-//     }
-    
-
-//     return spath;
-// }
-
-//==============================================================
 // printAdjacencyList
+// INPUTS: NONE
+// OUTPUTS: NONE
+// Prints out weighted graph in adjacency list representation
 //==============================================================
 template <class T>
 void WeightedGraph<T>::printAdjacencyList() const {
@@ -268,8 +233,28 @@ void WeightedGraph<T>::printAdjacencyList() const {
     }
 }   
 
+//============================================================== 
+// idFromCoords
+// INPUTS: Coord pair
+// OUTPUTS: Node ID
+// finds and returns id of node by searching coodrs for coordinate pair
+//==============================================================
+template <class T>
+T WeightedGraph<T>::idFromCoords(pair<double, double> node) {
+    T nodeId = -1; // -1 does not exist as id in coords
+    for (const auto& [id, coord] : coords) {                          
+        if (node.first == coord.first && node.second == coord.second) {
+            nodeId = id;
+        }
+    }
+    return nodeId;
+}
+
 //==============================================================
 // findNode
+// INPUTS: start and end coordinates
+// OUTPUTS: Pair (start node ID, end node ID);
+// Takes coordinates and finds the associated node ID
 //==============================================================
 template <class T>
 pair<double, double> WeightedGraph<T>::findNode(pair<double, double> start, pair<double, double> end) {
@@ -291,7 +276,7 @@ pair<double, double> WeightedGraph<T>::findNode(pair<double, double> start, pair
     return make_pair(startNode, endNode);
 }
 
-
+// class instantiations
 template class WeightedGraph<long>;
 template class WeightedGraph<long long>;
 template class WeightedGraph<int>;

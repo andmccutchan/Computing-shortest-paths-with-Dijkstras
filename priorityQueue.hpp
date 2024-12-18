@@ -1,3 +1,11 @@
+//=========================================================
+// PriorityQueue.hpp
+// Andrew McCutchan, Namu Kim
+// Header file containing all function delcarations for
+// PriorityQueue class.
+// 12/18/2024
+//=========================================================
+
 #ifndef PRIORITY_QUEUE_HPP
 #define PRIORITY_QUEUE_HPP
 

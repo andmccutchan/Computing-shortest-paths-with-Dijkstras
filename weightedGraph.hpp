@@ -1,6 +1,8 @@
 //=========================================================
-// Graph.hpp
-// Andrew McCutchan
+// WeightedGraph.hpp
+// Andrew McCutchan, Namu Kim
+// Header file containing all function delcarations for
+// WeightedGraph class.
 // 12/18/2024
 //=========================================================
 #include <iostream>
@@ -11,6 +13,7 @@
 #include <fstream>
 #include <sstream>
 #include <cmath>
+#include <algorithm>
 #include "priorityQueue.hpp"
 using namespace std;
 
@@ -34,7 +37,6 @@ class WeightedGraph {
                 T                               idFromCoords(pair<double, double> node);
                 void                            addVertex(const T& id, double x, double y);
                 vector<pair <double, double> >  dijkstras(pair<double, double> startCoord, pair<double, double> endCoord);
-                // vector<pair <double, double> >  dijkstras(const T& sourceNode, const T& endNode);
         static  WeightedGraph<T>                readFromSTDIN();
         static  WeightedGraph<T>                readFromFile(const string& filename);
                 pair<double, double>            findNode(pair<double, double> start, pair<double, double> end);

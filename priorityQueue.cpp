@@ -1,13 +1,26 @@
+//=========================================================
+// PriorityQueue.cpp
+// Andrew McCutchan, Namu Kim
+// Implementaiton file for PriorityQueue class
+// 12/18/2024
+//=========================================================
+
 #include "priorityQueue.hpp"
 
 //==============================================================
 // Default Constructor
+// INPUTS: NONE
+// OUTPUTS: NONE
+// Createa empty prioirty queue object
 //==============================================================
 template <class T>
 PriorityQueue<T>::PriorityQueue() {}
 
 //==============================================================
 // Copy Constructor
+// INPUTS: Other PQ object
+// OUTPUTS: NONE
+// Copies data from existing priority queue object
 //==============================================================
 template <class T>
 PriorityQueue<T>::PriorityQueue(const PriorityQueue& other) {
@@ -17,6 +30,9 @@ PriorityQueue<T>::PriorityQueue(const PriorityQueue& other) {
 
 //==============================================================
 // Destructor
+// INPUTS: NONE
+// OUTPUTS: NONE
+// Frees up memory
 //==============================================================
 template <class T>
 PriorityQueue<T>::~PriorityQueue() {
@@ -26,6 +42,8 @@ PriorityQueue<T>::~PriorityQueue() {
 
 //==============================================================
 // Assignment Operator
+// INPUTS: Other PQ object
+// OUTPUTS: New PQ object contained data from existing PQ
 //==============================================================
 template <class T>
 PriorityQueue<T>& PriorityQueue<T>::operator=(const PriorityQueue<T>& other) {
@@ -38,6 +56,9 @@ PriorityQueue<T>& PriorityQueue<T>::operator=(const PriorityQueue<T>& other) {
 
 //==============================================================
 // Insert
+// INPUTS: NodeID and its weight
+// OUTPUTS: NONE
+// Inserts a node with its weight from the start ID
 //==============================================================
 template <class T>
 void PriorityQueue<T>::insert(const T& nodeId, double priority) {
@@ -53,6 +74,9 @@ void PriorityQueue<T>::insert(const T& nodeId, double priority) {
 
 //==============================================================
 // Extract Min
+// INPUTS: NONE
+// OUTPUTS: Pair with node and weight
+// Takes the min value out of the priority queue and returns it 
 //==============================================================
 template <class T>
 pair<T, double> PriorityQueue<T>::extractMin() {
@@ -79,6 +103,9 @@ pair<T, double> PriorityQueue<T>::extractMin() {
 
 //==============================================================
 // Decrease Key 
+// INPUTS: Node ID to change, its new priority
+// OUTPUTS: NONE
+// Enters an existing node and a new values to make its priority
 //==============================================================
 template <class T>
 void PriorityQueue<T>::decreaseKey(const T& nodeId, double newPriority) {
@@ -98,7 +125,10 @@ void PriorityQueue<T>::decreaseKey(const T& nodeId, double newPriority) {
 }
 
 //==============================================================
-// Decrease Key 
+// PrintMinHeap 
+// INPUTS: NONE
+// OUTPUTS: NONE
+// Prints out the min PQ
 //==============================================================
 template <class T>
 void PriorityQueue<T>::printMinHeap() {
