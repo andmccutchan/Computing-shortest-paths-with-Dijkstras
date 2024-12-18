@@ -18,6 +18,14 @@ using namespace std;
 int testsPassed = 0;
 int testsFailed = 0;
 
+void assertTest(bool condition) {
+    if (condition) {
+        testsPassed++;
+    } else {
+        testsFailed++;
+    }
+}
+
 void testPQInsert() {
     PriorityQueue<long> pq;
     pq.insert(1, 10.3);
@@ -26,8 +34,10 @@ void testPQInsert() {
     pq.insert(4, 3.6);
     pq.insert(5, 6.57);
     PriorityQueue<long> pq2 = pq;
-    pq2.printMinHeap();
-    cout << endl;
+    //pq2.printMinHeap();
+    //cout << endl;
+    auto min = pq2.extractMin();
+    assertTest(min.first == 2 && min.second == 1.4);
 }
 
 void testPQDecreaseKey() {
@@ -38,11 +48,13 @@ void testPQDecreaseKey() {
     pq.insert(4, 3.6);
     pq.insert(5, 6.57);
     pq.decreaseKey(3, 6.2);
-    pq.printMinHeap();
-    cout << endl;
+    //pq.printMinHeap();
+    //cout << endl;
+    pair<long, double> newNode = pq[2];
+    assertTest(newNode.second == 6.2);
 }
 
-void testExtractMin() {
+void testPQExtractMin() {
     PriorityQueue<long> pq;
     pq.insert(1, 10.3);
     pq.insert(2, 1.4);
@@ -51,11 +63,84 @@ void testExtractMin() {
     pq.insert(5, 6.57);
     PriorityQueue<long> pq2(pq);
     auto min = pq2.extractMin();
-    pq2.printMinHeap();
-    cout << "PQ Min: " << min.first << ", " << min.second << endl;
+    //pq2.printMinHeap();
+    //cout << endl;
+    //cout << "PQ Min: " << min.first << ", " << min.second << endl;
+    assertTest(min.first == 2 && min.second == 1.4);
 }
 
+void testFindNode() {
+    WeightedGraph<long> graph = WeightedGraph<long>::readFromFile("testData.txt");
+    pair<double, double> nodes = graph.findNode(make_pair(20.45, -18.67), make_pair(40.91, -80.66));
+    //cout << nodes.first << ", " << nodes.second << endl;
+    assertTest(nodes.first == 1 && nodes.second == 5);
+}
 
+void testWGReadFromFile() {
+    WeightedGraph<int> graph;
+    graph = graph.readFromFile("testData.txt");
+    unordered_map<int, pair<double, double> > coords;
+    coords = graph.getCoords();
+    unordered_map<int, unordered_map<int, double > > adjList;
+    adjList = graph.getAdjacencyList();
+    assertTest(coords[5].first == 40.91 && coords[5].second == -80.66);
+    assertTest(adjList[5][4] == 16.7);
+
+}
+
+void testWGAddVertex() {
+    WeightedGraph<int> graph;
+    graph.addVertex(42, 3, 3);
+    unordered_map<int, pair<double, double> > coords = graph.getCoords();
+    assertTest(coords[42].first == 3 && coords[42].second == 3);
+}
+
+void testWGAddEdge() {
+    WeightedGraph<int> graph;
+    graph = graph.readFromFile("testData.txt");
+    graph.addEdge(1, 5, 42);
+    unordered_map<int, unordered_map<int, double > > adjList = graph.getAdjacencyList();
+    assertTest(adjList[1][5] == 42);
+}
+
+void testWGEdgeIn() {
+    WeightedGraph<int> graph;
+    graph = graph.readFromFile("testData.txt");
+    assertTest(graph.edgeIn(4,2));
+}
+
+void testWGfindNodes() {
+    WeightedGraph<int> graph;
+}
+
+void testWGDijkstras() {
+    WeightedGraph<int> graph;
+    graph = graph.readFromFile("testData.txt");
+    pair<double, double> two, five;
+    two = make_pair(25.37, -15.24);
+    five = make_pair(40.91, -80.66);
+    vector<pair<double, double>> sPath;
+    sPath = graph.dijkstras(two, five);
+    assertTest(sPath[1].first == 37.19 && sPath[1].second == -18.23);
+}
+
+void runTests() {
+    cout << "\n>>Running tests..." << endl;
+    testPQInsert();
+    testPQDecreaseKey();
+    testPQExtractMin();
+    testWGReadFromFile();
+    testWGAddVertex();
+    testWGAddEdge();
+    testWGEdgeIn();
+    testWGDijkstras();
+    testWGfindNodes();
+    cout <<
+    "\n>>Test Resuts<<" <<
+    "\nTests Passed: " << testsPassed <<
+    "\nTests Failed: " << testsFailed <<
+    "\n------------------------------------";
+}
 
 
 // CLI function declared here
@@ -198,14 +283,26 @@ void CLIfunction() {
 //=============================================================
 // CLI function (change from main to other name)
 int main (void) {
-    //CLI Dijkstras program 
-    //============================
-    CLIfunction();
+    cout << "\n\n=== Welcome to Denison Route Finder! ===" << endl;
+    while (true) {
+        cout << 
+        "\nNotice: You may input \'q\' at anytime to terminate this program." <<
+        "\nWould you like to run the CLI program or test it? " <<
+        "\nType \"test\" to run tests, any other input will run CLI: ";
+        string filename;
+        getline(cin, filename); //using getline and cin together causes issues, unify.
 
-    //Test functions
-    //============================
-    // testPQInsert();
-    // testPQDecreaseKey();
-    // testExtractMin();
-  
+        if (filename == "q") {
+            cout << "Exiting... Thanks for using our program!!" << endl;
+            break;
+        }
+        else if (filename == "test"){
+            runTests();
+            
+        }
+        else {
+            CLIfunction();
+            break;
+        }
+    } 
 }

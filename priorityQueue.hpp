@@ -76,6 +76,7 @@ class PriorityQueue {
                             PriorityQueue();
                             PriorityQueue(const PriorityQueue& other);
                             ~PriorityQueue();
+        pair<T, double>     operator[](const T& index) const;
         PriorityQueue&      operator=(const PriorityQueue &other);
         void                insert(const T& nodeId, double priority);
         pair<T, double>     extractMin();

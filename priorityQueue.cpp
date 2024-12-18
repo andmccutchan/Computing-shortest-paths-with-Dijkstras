@@ -54,6 +54,14 @@ PriorityQueue<T>& PriorityQueue<T>::operator=(const PriorityQueue<T>& other) {
     return *this;
 }
 
+template <class T>
+pair<T, double> PriorityQueue<T>::operator[](const T& index) const {
+    if (index < 0 || index >= static_cast<int>(minHeap.size())) {
+        throw std::out_of_range("Index out of range");
+    }
+    return minHeap[index]; 
+}
+
 //==============================================================
 // Insert
 // INPUTS: NodeID and its weight
